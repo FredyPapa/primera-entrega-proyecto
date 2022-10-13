@@ -1,0 +1,13 @@
+.menu{
+  border-right: 1px solid #ddd;
+  height: 100vh;
+  padding-top: 20px;
+}
+
+.list-group-item{
+  cursor: pointer;
+}
+
+.list-group-item:hover{
+  background-color: #F2A29F;
+}

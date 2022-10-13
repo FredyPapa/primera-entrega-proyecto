@@ -1,0 +1,91 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="titulo mb-3">{{titulo | uppercase}}
+        <div *ngIf="loading" class="spinner-border float-end" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </h5>
+    <form [formGroup]="formAlumno" (ngSubmit)="registrarAlumno()">
+      <div class="input-group input-group-lg mb-3">
+        <span class="input-group-text">
+            <i class="fa-solid fa-circle-user"
+            [class.green-icon]="this.formAlumno.get('nombre')?.valid"
+            [class.red-icon]="this.formAlumno.get('nombre')?.invalid && this.formAlumno.get('nombre')?.touched"></i>
+        </span>
+        <input type="text" maxlength="25" formControlName="nombre" class="form-control" placeholder="Nombre" id="nombre" />
+      </div>
+      <div class="input-group input-group-lg mb-3">
+        <span class="input-group-text">
+          <i class="fa-solid fa-circle-user"
+            [class.green-icon]="this.formAlumno.get('apellidoPaterno')?.valid"
+            [class.red-icon]="this.formAlumno.get('apellidoPaterno')?.invalid && this.formAlumno.get('apellidoPaterno')?.touched"></i>
+        </span>
+        <input type="text" maxlength="25" formControlName="apellidoPaterno" class="form-control" placeholder="Apellido Paterno" />
+      </div>
+      <div class="input-group input-group-lg mb-3">
+        <span class="input-group-text">
+            <i class="fa-solid fa-circle-user"
+            [class.green-icon]="this.formAlumno.get('apellidoMaterno')?.valid"
+            [class.red-icon]="this.formAlumno.get('apellidoMaterno')?.invalid && this.formAlumno.get('apellidoMaterno')?.touched"></i>
+        </span>
+        <input type="text" maxlength="25" formControlName="apellidoMaterno" class="form-control" placeholder="Apellido Materno" />
+      </div>
+      <div class="input-group input-group-lg mb-3">
+        <span class="input-group-text">
+            <i class="fa-solid fa-circle-user"
+            [class.green-icon]="this.formAlumno.get('sexo')?.valid"
+            [class.red-icon]="this.formAlumno.get('sexo')?.invalid && this.formAlumno.get('sexo')?.touched"></i>
+        </span>
+        <select formControlName="sexo" class="form-control">
+          <option value="1">Masculino</option>
+          <option value="2">Femenino</option>
+        </select>
+      </div>
+
+      <div class="d-grid gap-2">
+        <button [disabled]="formAlumno.invalid" class="btn btn-success btn-lg" type="submit">
+            <i class="fa-solid fa-database"></i>&nbsp;Aceptar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<hr/>
+
+<mat-table [dataSource]="ELEMENT_DATA">
+  <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+      <mat-cell *matCellDef="let alumno"> {{alumno.nombre}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="apellidoPaterno">
+      <mat-header-cell *matHeaderCellDef>Apellido Paterno</mat-header-cell>
+      <mat-cell *matCellDef="let alumno"> {{alumno.apellidoPaterno}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="apellidoMaterno">
+    <mat-header-cell *matHeaderCellDef>Apellido Materno</mat-header-cell>
+    <mat-cell *matCellDef="let alumno"> {{alumno.apellidoMaterno}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="sexo">
+    <mat-header-cell *matHeaderCellDef>Sexo</mat-header-cell>
+    <mat-cell *matCellDef="let alumno"> <span [appEstiloSexo]="alumno.sexo"> {{alumno.sexo | descripcionSexo: 'Masculino':'Femenino'}} </span></mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="accion">
+      <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+      <mat-cell *matCellDef="let alumno">
+        <mat-icon class="mat-18 color-blue cursor-pointer" (click)="seleccionarAlumno(alumno.id)" >edit</mat-icon>
+        <mat-icon class="mat-18 color-red cursor-pointer" (click)="eliminarAlumno(alumno.id)">delete</mat-icon>
+      </mat-cell>
+  </ng-container>
+
+
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+</mat-table>
+
